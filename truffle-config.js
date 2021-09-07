@@ -67,9 +67,9 @@ module.exports = {
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
     // ropsten: {
-    ropsten: {
+    rinkeby: {
     provider: () => new HDWalletProvider(process.env.MINEMONIC, process.env.API_KEY),
-    network_id: 3,       // Ropsten's id
+    network_id: 4,       // Ropsten's id
     // gas: 5500000,        // Ropsten has a lower block limit than mainnet
     //confirmations: 1,    // # of confs to wait between deployments. (default: 0)
     timeoutBlocks: 1000,  // # of blocks before a deployment times out  (minimum/default: 50)
