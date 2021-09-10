@@ -235,8 +235,6 @@ contract VaultHillCity is Context, IERC20, IERC20Metadata, Ownable {
         _balances[recipient] += amount;
 
         emit Transfer(sender, recipient, amount);
-
-        _afterTokenTransfer(sender, recipient, amount);
     }
 
     /** @dev Creates `amount` tokens and assigns them to `account`, increasing
@@ -256,8 +254,6 @@ contract VaultHillCity is Context, IERC20, IERC20Metadata, Ownable {
         _totalSupply += amount;
         _balances[account] += amount;
         emit Transfer(address(0), account, amount);
-
-        _afterTokenTransfer(address(0), account, amount);
     }
 
     /**
@@ -284,8 +280,6 @@ contract VaultHillCity is Context, IERC20, IERC20Metadata, Ownable {
         _totalSupply -= amount;
 
         emit Transfer(account, address(0), amount);
-
-        _afterTokenTransfer(account, address(0), amount);
     }
 
     /**
@@ -334,24 +328,4 @@ contract VaultHillCity is Context, IERC20, IERC20Metadata, Ownable {
         require(_blacklist[from] != true, "User blacklisted: Sender is blacklisted");
         require(_blacklist[to] != true, "User blacklisted: Recipient is blacklisted");
     }
-
-    /**
-     * @dev Hook that is called after any transfer of tokens. This includes
-     * minting and burning.
-     *
-     * Calling conditions:
-     *
-     * - when `from` and `to` are both non-zero, `amount` of ``from``'s tokens
-     * has been transferred to `to`.
-     * - when `from` is zero, `amount` tokens have been minted for `to`.
-     * - when `to` is zero, `amount` of ``from``'s tokens have been burned.
-     * - `from` and `to` are never both zero.
-     *
-     * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].
-     */
-    function _afterTokenTransfer(
-        address from,
-        address to,
-        uint256 amount
-    ) internal virtual {}
 }
