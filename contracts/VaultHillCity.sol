@@ -15,7 +15,7 @@ contract VaultHillCity is ERC20, AccessControl {
     event UserUnblocked(address user);
 
     constructor(address admin) ERC20("Vault Hill City", "VHC") {
-        _mint(msg.sender, 340000000 * 10 ** uint256(decimals()));
+        _mint(admin, 340000000 * 10 ** uint256(decimals()));
         _setupRole(DEFAULT_ADMIN_ROLE, admin);
     }
     
