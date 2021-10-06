@@ -15,21 +15,21 @@ contract VaultHillCity is ERC20, AccessControl {
     event UserUnblocked(address user);
 
     constructor(address admin) ERC20("Vault Hill City", "VHC") {
-        _mint(admin, 340000000 * 10 ** uint256(decimals()));
+        _mint(admin, 340e6 ether);
         _setupRole(DEFAULT_ADMIN_ROLE, admin);
     }
     
     /**
      * @dev Returns a boolean indicating whether a certain address is on the blocklist.
      */
-     function isUserBlocked(address account) public view returns (bool) {
+     function isUserBlocked(address account) external view returns (bool) {
          return _blocklist[account];
      }
 
     /**
      * @dev Destroys an amount of tokens from an account. 
      */
-    function burn(address account, uint256 amount) public {
+    function burn(address account, uint256 amount) external {
         require(hasRole(BURNER_ROLE, msg.sender), "Caller does not have the burner role");
         _burn(account, amount);
     }
@@ -37,7 +37,7 @@ contract VaultHillCity is ERC20, AccessControl {
      /**
      * @dev Add an address to the blocklist.
      */
-     function blockUser(address user) public {
+     function blockUser(address user) external {
         require(hasRole(BLOCKER_ROLE, msg.sender), "Acess denied: Caller does not have the blocker role");
         require(user != address(0), "Address zero cannot be added to the blocklist");
         _blocklist[user] = true;
@@ -47,7 +47,7 @@ contract VaultHillCity is ERC20, AccessControl {
      /**
      * @dev Removes an address from the blocklist.
      */
-     function unblockUser(address user) public {
+     function unblockUser(address user) external {
         require(hasRole(BLOCKER_ROLE, msg.sender), "Acess denied: Caller does not have the blocker role");
         require(_blocklist[user], "Address is not on blocklist");
         _blocklist[user] = false;
@@ -65,8 +65,8 @@ contract VaultHillCity is ERC20, AccessControl {
         address to,
         uint256 amount
     ) internal virtual override {
-        require(_blocklist[from] != true, "User on blocklist: Sender is blacklisted");
-        require(_blocklist[to] != true, "User on blocklist: Recipient is blacklisted");
+        require(!_blocklist[from], "User on blocklist: Sender is blacklisted");
+        require(!_blocklist[to], "User on blocklist: Recipient is blacklisted");
         
         super._beforeTokenTransfer(from, to, amount);
     }
